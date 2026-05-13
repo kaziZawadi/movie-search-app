@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
 
 function App() {
   const [movies, setMovies] = useState([]);
+
+  const [favorites, setFavorites] = useState(() => {
+    const savedFavorites = localStorage.getItem("favorites");
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   async function handleSearch(query) {
     setLoading(true);
@@ -27,14 +37,38 @@ function App() {
     setLoading(false);
   }
 
+  function addFavorite(movie) {
+    const alreadyFavorite = favorites.find(
+      (fav) => fav.imdbID === movie.imdbID,
+    );
+
+    if (alreadyFavorite) return;
+
+    setFavorites([...favorites, movie]);
+  }
+
+  function removeFavorite(imdbID) {
+    const updatedFavorites = favorites.filter(
+      (movie) => movie.imdbID !== imdbID,
+    );
+
+    setFavorites(updatedFavorites);
+  }
+
   return (
     <div className="app">
       <h1>Movie Search App</h1>
 
       <SearchBar onSearch={handleSearch} loading={loading} />
+
       {loading && <p>Chargement...</p>}
       {error && <p>{error}</p>}
-      <MovieList movies={movies} />
+
+      <h2>Favoris</h2>
+      <MovieList movies={favorites} onRemoveFavorite={removeFavorite} />
+
+      <h2>Résultats</h2>
+      <MovieList movies={movies} onAddFavorite={addFavorite} />
     </div>
   );
 }
