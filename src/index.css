@@ -176,3 +176,18 @@ button:disabled {
   border-radius: 8px;
   color: #555;
 }
+
+.favorite-btn {
+  margin-top: 10px;
+  background: #2563eb;
+}
+
+.favorite-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.remove-btn {
+  margin-top: 10px;
+  background: #dc2626;
+}

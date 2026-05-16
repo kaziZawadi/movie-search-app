@@ -1,4 +1,6 @@
-function MovieCard({ movie, onAddFavorite, onRemoveFavorite }) {
+function MovieCard({ movie, favorites, onAddFavorite, onRemoveFavorite }) {
+  const isFavorite = favorites?.some((fav) => fav.imdbID === movie.imdbID);
+
   return (
     <div className="movie-card">
       <h2>{movie.Title}</h2>
@@ -8,13 +10,20 @@ function MovieCard({ movie, onAddFavorite, onRemoveFavorite }) {
           <img src={movie.Poster} alt={movie.Title} width="150" />
 
           {onAddFavorite && (
-            <button onClick={() => onAddFavorite(movie)}>
-              Ajouter aux favoris
+            <button
+              className="favorite-btn"
+              onClick={() => onAddFavorite(movie)}
+              disabled={isFavorite}
+            >
+              {isFavorite ? "Déjà favori" : "Ajouter aux favoris"}
             </button>
           )}
 
           {onRemoveFavorite && (
-            <button onClick={() => onRemoveFavorite(movie.imdbID)}>
+            <button
+              className="remove-btn"
+              onClick={() => onRemoveFavorite(movie.imdbID)}
+            >
               Retirer
             </button>
           )}

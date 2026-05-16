@@ -1,6 +1,6 @@
 import MovieCard from "./MovieCard";
 
-function MovieList({ movies, onAddFavorite, onRemoveFavorite }) {
+function MovieList({ movies, favorites, onAddFavorite, onRemoveFavorite }) {
   if (movies.length === 0) {
     return <p>Aucun film à afficher</p>;
   }
@@ -11,6 +11,7 @@ function MovieList({ movies, onAddFavorite, onRemoveFavorite }) {
         <MovieCard
           key={movie.imdbID}
           movie={movie}
+          favorites={favorites}
           onAddFavorite={onAddFavorite}
           onRemoveFavorite={onRemoveFavorite}
         />

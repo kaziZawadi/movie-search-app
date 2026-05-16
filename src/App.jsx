@@ -12,6 +12,7 @@ function App() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -19,6 +20,7 @@ function App() {
 
   async function handleSearch(query) {
     setLoading(true);
+    setHasSearched(true);
     setError("");
 
     const response = await fetch(
@@ -64,11 +66,25 @@ function App() {
       {loading && <p>Chargement...</p>}
       {error && <p>{error}</p>}
 
-      <h2>Favoris</h2>
-      <MovieList movies={favorites} onRemoveFavorite={removeFavorite} />
+      <h2>Favoris ({favorites.length})</h2>
 
-      <h2>Résultats</h2>
-      <MovieList movies={movies} onAddFavorite={addFavorite} />
+      {favorites.length > 0 ? (
+        <MovieList movies={favorites} onRemoveFavorite={removeFavorite} />
+      ) : (
+        <p>Aucun favori pour le moment.</p>
+      )}
+
+      {hasSearched && (
+        <>
+          <h2>Résultats</h2>
+
+          <MovieList
+            movies={movies}
+            favorites={favorites}
+            onAddFavorite={addFavorite}
+          />
+        </>
+      )}
     </div>
   );
 }
