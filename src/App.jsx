@@ -71,7 +71,7 @@ function App() {
       {favorites.length > 0 ? (
         <MovieList movies={favorites} onRemoveFavorite={removeFavorite} />
       ) : (
-        <p>Aucun favori pour le moment.</p>
+        <p className="empty-message">Aucun favori pour le moment.</p>
       )}
 
       {hasSearched && (

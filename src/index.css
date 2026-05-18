@@ -191,3 +191,9 @@ button:disabled {
   margin-top: 10px;
   background: #dc2626;
 }
+
+.empty-message {
+  margin-top: 20px;
+  color: #6b7280;
+  font-style: italic;
+}
