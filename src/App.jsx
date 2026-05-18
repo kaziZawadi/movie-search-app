@@ -57,6 +57,16 @@ function App() {
     setFavorites(updatedFavorites);
   }
 
+  function clearFavorites() {
+    const confirmed = window.confirm(
+      "Voulez-vous vraiment supprimer tous les favoris ?",
+    );
+
+    if (!confirmed) return;
+
+    setFavorites([]);
+  }
+
   return (
     <div className="app">
       <h1>Movie Search App</h1>
@@ -67,6 +77,10 @@ function App() {
       {error && <p>{error}</p>}
 
       <h2>Favoris ({favorites.length})</h2>
+
+      {favorites.length > 0 && (
+        <button onClick={clearFavorites}>Vider les favorites</button>
+      )}
 
       {favorites.length > 0 ? (
         <MovieList movies={favorites} onRemoveFavorite={removeFavorite} />
